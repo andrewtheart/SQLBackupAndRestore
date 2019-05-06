@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLServerDatabaseBackup.Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLServerDatabaseBackup.Utils", "SQLServerDatabaseBackup.Utils\SQLServerDatabaseBackup.Utils.csproj", "{CF7BD236-C066-4AC3-9ECC-2E8A0CA97AF5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{733C335B-53E4-4673-8870-8E38D483270A}"
+	ProjectSection(SolutionItems) = preProject
+		AddToGit.bat = AddToGit.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

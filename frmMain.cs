@@ -378,12 +378,29 @@ namespace SQLServerDatabaseBackup
 
         private void BackupAndRestore_Click(object sender, EventArgs e)
         {
-            BackupAndRestoreSelectedItem((BackupRestoreAction)lstLocalInstances.SelectedItems[0].Tag);
+            listView1.Items.Clear();
+            listView1.Refresh();
+            var action = (BackupRestoreAction)lstLocalInstances.SelectedItems[0].Tag;
+            var start = DateTime.Now;
+            var result = BackupAndRestoreSelectedItem(action);
+            var end = DateTime.Now;
+            result.StartTime = start;
+            result.EndTime = end;
+            result.action = action;
+            AddBackupAndRestoreResultToListView(result);
         }
 
-        private void BackupAndRestoreSelectedItem(BackupRestoreAction bra)
+        private void AddBackupAndRestoreResultToListView(BackupAndRestoreResult result)
         {
-            BackupAndRestoreAction(bra);
+            ListViewItem lvi = new ListViewItem();
+            lvi.Text = result.Message;
+            lvi.Tag = result;
+            listView1.Items.Add(lvi);
+        }
+
+        private BackupAndRestoreResult BackupAndRestoreSelectedItem(BackupRestoreAction bra)
+        {
+            return BackupAndRestoreAction(bra);
         }
 
         private BackupAndRestoreResult BackupAndRestoreAction(BackupRestoreAction bra)
@@ -647,11 +664,9 @@ namespace SQLServerDatabaseBackup
                 result.StartTime = start;
                 DateTime end = DateTime.Now;
                 result.EndTime = end;
+                result.action = bra;
 
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = result.Message;
-                lvi.Tag = bra;
-                listView1.Items.Add(lvi);
+                AddBackupAndRestoreResultToListView(result);
             }
 
         }
@@ -670,13 +685,11 @@ namespace SQLServerDatabaseBackup
         {
             // Show the toolstrip context menu on the listview item
 
-            if (e.Button == MouseButtons.Right)
+            if (listView1.FocusedItem.Bounds.Contains(e.Location))
             {
-                if (listView1.FocusedItem.Bounds.Contains(e.Location))
-                {
-                    BackupResultMenuStrip.Show(Cursor.Position);
-                }
+                BackupResultMenuStrip.Show(Cursor.Position);
             }
+           
         }
 
         private void detailsMenuStripItem_Click(object sender, EventArgs e)

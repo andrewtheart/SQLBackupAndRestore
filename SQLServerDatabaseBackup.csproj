@@ -105,6 +105,12 @@
     <Compile Include="AddEditBackupRestoreAction.Designer.cs">
       <DependentUpon>AddEditBackupRestoreAction.cs</DependentUpon>
     </Compile>
+    <Compile Include="BackupAndRestoreResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BackupAndRestoreResultForm.Designer.cs">
+      <DependentUpon>BackupAndRestoreResultForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddEditBackupRestoreAction.resx">
       <DependentUpon>AddEditBackupRestoreAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BackupAndRestoreResultForm.resx">
+      <DependentUpon>BackupAndRestoreResultForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
