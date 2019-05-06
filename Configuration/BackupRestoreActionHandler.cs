@@ -61,6 +61,14 @@ namespace SQLServerDatabaseBackup.Configuration
 					DateTime now = DateTime.Now;
 					backupRestoreAction.toDatabase = string.Concat(str, now.ToString("MMddyyyyHHmmss"));
 				}
+                else
+                {
+                    BackupRestoreAction backupRestoreAction = bActions;
+                    string fromdb = backupRestoreAction.fromDatabase;
+                    string str = backupRestoreAction.toDatabase;
+                   
+                    backupRestoreAction.toDatabase = fromdb;
+                }
 			}
 		}
 	}

@@ -51,7 +51,7 @@ namespace SQLServerDatabaseBackup
             BackupRestoreAction newBra = BindBra();
 
             var exeConfiguration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            BackupRestoreActionConfigSection config = ConfigurationManager.GetSection("backupRestoreSetting") as BackupRestoreActionConfigSection;
+            BackupRestoreActionConfigSection config = exeConfiguration.GetSection("backupRestoreSetting") as BackupRestoreActionConfigSection;
 
             for (int x = 0; x < config.Servers.Count; x++)
             {
@@ -60,18 +60,21 @@ namespace SQLServerDatabaseBackup
                 config.Servers[x].fromDatabase = textDatabaseNameOrigin.Text;
                 config.Servers[x].SQLusernameFromServer = textSqlUserNameOrigin.Text;
                 config.Servers[x].SQLpasswordFromServer = textSqlPasswordOrigin.Text;
-
                 config.Servers[x].toServer = textServerNameDestination.Text;
                 config.Servers[x].toDatabase = textDatabaseNameDestination.Text;
                 config.Servers[x].SQLusernameToServer = textSqlUserNameDestination.Text;
                 config.Servers[x].SQLpasswordToServer = textSqlPasswordDestination.Text;
-
                 config.Servers[x].replace = checkBoxReplaceDatabase.Checked.ToString().ToLower();
                 config.Servers[x].UseWindowsAuthenticationFromServer = checkBoxUseWindowsAuthOriginServer.Checked;
             
             }
+          
             exeConfiguration.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("backupRestoreSetting");
+
+            Program.Form.GetConfig();
+
+            this.Close();
 
         }
 

@@ -22,24 +22,13 @@ namespace SQLServerDatabaseBackup
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-
             // Add columns
-          
-            var bakRestObj = new BackupRestoreActionHandler();
-            bakRestObj.getServers();
 
-            foreach (var bakRest in bakRestObj.actions)
-            {
-                var obj = bakRest;
-                ListViewItem v = new ListViewItem(new[] { bakRest.description, bakRest.fromDatabase, bakRest.toDatabase, bakRest.fromServer, bakRest.toServer});
-                v.Tag = obj;
-                v.Text = obj.ToString();
-                lstLocalInstances.Items.Add(v);
-            }
+            GetConfig();
 
-             var activeLocalDrives = GetActiveLocalDrives();
-           
-            foreach(var drive in activeLocalDrives)
+            var activeLocalDrives = GetActiveLocalDrives();
+
+            foreach (var drive in activeLocalDrives)
             {
                 if (radioButton1.Text == "-")
                 {
@@ -76,7 +65,7 @@ namespace SQLServerDatabaseBackup
 
             if (first != null)
                 first.Visible = false;
-            
+
             foreach (var drive in activeLocalDrives)
             {
                 if (radioButton6.Text == "-")
@@ -117,6 +106,24 @@ namespace SQLServerDatabaseBackup
 
 
 
+        }
+
+        public void GetConfig()
+        {
+
+            lstLocalInstances.Items.Clear();
+
+            var bakRestObj = new BackupRestoreActionHandler();
+            bakRestObj.getServers();
+
+            foreach (var bakRest in bakRestObj.actions)
+            {
+                var obj = bakRest;
+                ListViewItem v = new ListViewItem(new[] { bakRest.description, bakRest.fromDatabase, bakRest.toDatabase, bakRest.fromServer, bakRest.toServer });
+                v.Tag = obj;
+                v.Text = obj.ToString();
+                lstLocalInstances.Items.Add(v);
+            }
         }
 
         private List<DriveInfo> GetActiveLocalDrives()
@@ -372,7 +379,7 @@ namespace SQLServerDatabaseBackup
         private void Edit_Click(object sender, EventArgs e)
         {
             AddEditBackupRestoreAction frm = new AddEditBackupRestoreAction((BackupRestoreAction)lstLocalInstances.SelectedItems[0].Tag);
-            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.StartPosition = FormStartPosition.CenterScreen;
             frm.Show();
         }
 
@@ -456,23 +463,26 @@ namespace SQLServerDatabaseBackup
                     String ORIGIN_backupsPathRemote = string.Format("\\\\{0}\\{1}\\{2}", bra.fromServer, originDrive.UNCDriveName, "Backups");
                     String ORIGIN_backupsPathLocal = string.Format("{0}\\{1}", originDrive.LocalDriveName, "Backups");
 
-                    String ORIGIN_backupFileNameLocal = string.Format("BACKUP_{0}_{1}.BAK", bra.fromDatabase, DateTime.Now.ToString("MMddyyyHHmmss"));
+                    Guid newGuidOrigin = Guid.NewGuid();
+
+                    String ORIGIN_backupFileNameLocal = string.Format("BACKUP_{0}_{1}.BAK", bra.fromDatabase, newGuidOrigin);
                     String ORIGIN_fullBackupFilePathLocal = ORIGIN_backupsPathLocal + "\\" + ORIGIN_backupFileNameLocal;
 
-
-                    String ORIGIN_backupFileNameRemote = string.Format("BACKUP_{0}_{1}.BAK", bra.fromDatabase, DateTime.Now.ToString("MMddyyyHHmmss"));
+                    String ORIGIN_backupFileNameRemote = string.Format("BACKUP_{0}_{1}.BAK", bra.fromDatabase, newGuidOrigin);
                     String ORIGIN_fullBackupFilePathRemote = ORIGIN_backupsPathRemote + "\\" + ORIGIN_backupFileNameRemote;
 
                     String DESTINATION_backupsPathRemote = string.Format("\\\\{0}\\{1}\\{2}", bra.toServer, destinationDrive.UNCDriveName, "Backups");
                     String DESTINATION_backupsPathLocal = string.Format("{0}\\{1}", destinationDrive.LocalDriveName, "Backups");
 
-                    String DESTINATION_backupFileNameLocal = string.Format("BACKUP_{0}_{1}.BAK", bra.toDatabase, DateTime.Now.ToString("MMddyyyHHmmss"));
+                    Guid newGuidDestination = Guid.NewGuid();
 
-                    String DESTINATION_replacedDBBackupFileNameLocal = string.Format("BACKUPBEFORERESTORED_{0}_{1}.BAK", bra.toDatabase, DateTime.Now.ToString("MMddyyyHHmmss"));
+                    String DESTINATION_backupFileNameLocal = string.Format("BACKUP_{0}_{1}.BAK", bra.toDatabase, newGuidDestination);
+
+                    String DESTINATION_replacedDBBackupFileNameLocal = string.Format("BACKUPBEFORERESTORED_{0}_{1}.BAK", bra.toDatabase, DateTime.Now.ToString("MMddyyyHHmmss"), newGuidDestination);
                     String DESTINATION_fullBackupFilePathLocal = DESTINATION_backupsPathLocal + "\\" + DESTINATION_backupFileNameLocal;
                     String DESTINATION_replacedDBBackupFilePathLocal = DESTINATION_backupsPathLocal + "\\" + DESTINATION_replacedDBBackupFileNameLocal;
 
-                    String DESTINATION_backupFileNameRemote = string.Format("BACKUP_{0}_{1}.BAK", bra.toDatabase, DateTime.Now.ToString("MMddyyyHHmmss"));
+                    String DESTINATION_backupFileNameRemote = string.Format("BACKUP_{0}_{1}.BAK", bra.toDatabase, newGuidDestination);
                     String DESTINATION_fullBackupFilePathRemote = DESTINATION_backupsPathRemote + "\\" + DESTINATION_backupFileNameRemote;
 
                     if (!Directory.Exists(ORIGIN_backupsPathRemote))
@@ -602,10 +612,12 @@ namespace SQLServerDatabaseBackup
                     res.RelocateFiles.Add(LogFile);
 
                     int percentRestore = 0;
+                    progressBar1.Value = 0;
 
                     res.PercentComplete += new PercentCompleteEventHandler(delegate (object s, PercentCompleteEventArgs ev)
                     {
                         percentRestore = ev.Percent;
+                        progressBar1.Increment(ev.Percent);
                     });
 
                     res.SqlRestore(srv);
@@ -697,6 +709,34 @@ namespace SQLServerDatabaseBackup
             BackupAndRestoreResultForm frm = new BackupAndRestoreResultForm((BackupAndRestoreResult)listView1.SelectedItems[0].Tag);
             frm.StartPosition = FormStartPosition.CenterParent;
             frm.Show();
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            BackupAndRestoreResultForm frm = new BackupAndRestoreResultForm((BackupAndRestoreResult)listView1.SelectedItems[0].Tag);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            listView1.Refresh();
+
+            for(int i = 0; i < lstLocalInstances.SelectedItems.Count; i++)
+            {
+               
+                var actionTag = (BackupRestoreAction)lstLocalInstances.SelectedItems[i].Tag;
+                var start = DateTime.Now;
+                var result = BackupAndRestoreSelectedItem(actionTag);
+                var end = DateTime.Now;
+                result.StartTime = start;
+                result.EndTime = end;
+                result.action = actionTag;
+                AddBackupAndRestoreResultToListView(result);
+            }
+        
+
         }
     }
 }

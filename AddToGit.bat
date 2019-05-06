@@ -9,6 +9,6 @@ git push origin master
 
 
 
-
+git add .
 git commit -m "further commits"
 git push origin master

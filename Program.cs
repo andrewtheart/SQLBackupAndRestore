@@ -7,15 +7,22 @@ namespace SQLServerDatabaseBackup
 {
     static class Program
     {
+
+        public static frmMain Form;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+
+            Form = new frmMain();
+            Application.Run(Form);
+            
         }
     }
 }
