@@ -174,5 +174,10 @@ namespace SQLServerDatabaseBackup.Configuration
         public BackupRestoreActionConfigElement()
 		{
 		}
-	}
+
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+    }
 }

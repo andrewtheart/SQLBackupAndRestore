@@ -346,7 +346,7 @@
             this.BackupResultMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.detailsMenuStripItem});
             this.BackupResultMenuStrip.Name = "BackupResultMenuStrip";
-            this.BackupResultMenuStrip.Size = new System.Drawing.Size(153, 48);
+            this.BackupResultMenuStrip.Size = new System.Drawing.Size(119, 26);
             // 
             // detailsMenuStripItem
             // 
@@ -369,7 +369,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.checkBox1);
             this.Name = "frmMain";
-            this.Text = "SQL Server Database Backup";
+            this.Text = "SQL Server Database Backup and Restore v1.0";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

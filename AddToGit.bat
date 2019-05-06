@@ -6,3 +6,9 @@ git remote add origin https://github.com/andrewtheart/SQLBackupAndRestore.git
 git pull origin master --allow-unrelated-histories
 git merge origin origin/master
 git push origin master
+
+
+
+
+git commit -m "further commits"
+git push origin master
