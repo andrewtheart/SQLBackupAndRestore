@@ -169,7 +169,34 @@ namespace SQLServerDatabaseBackup.Configuration
         }
 
 
-        
+        [ConfigurationProperty("fromServerInstanceName", DefaultValue = "", IsRequired = false)]
+        public string fromServerInstanceName
+        {
+            get
+            {
+                return (string)base["fromServerInstanceName"];
+            }
+            set
+            {
+                base["fromServerInstanceName"] = value;
+            }
+        }
+
+
+
+        [ConfigurationProperty("toServerInstanceName", DefaultValue = "", IsRequired = false)]
+        public string toServerInstanceName
+        {
+            get
+            {
+                return (string)base["toServerInstanceName"];
+            }
+            set
+            {
+                base["toServerInstanceName"] = value;
+            }
+        }
+
 
         public BackupRestoreActionConfigElement()
 		{

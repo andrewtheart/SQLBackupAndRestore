@@ -58,6 +58,7 @@
             this.BackupResultMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.detailsMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
+            this.errors = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.Actions.SuspendLayout();
@@ -367,11 +368,20 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // errors
+            // 
+            this.errors.AutoSize = true;
+            this.errors.Location = new System.Drawing.Point(17, 396);
+            this.errors.Name = "errors";
+            this.errors.Size = new System.Drawing.Size(0, 13);
+            this.errors.TabIndex = 35;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(745, 397);
+            this.Controls.Add(this.errors);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.buttonBackupAll);
@@ -381,7 +391,10 @@
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.checkBox1);
+            this.MaximumSize = new System.Drawing.Size(761, 436);
+            this.MinimumSize = new System.Drawing.Size(761, 436);
             this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SQL Server Database Backup and Restore v1.0";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.groupBox1.ResumeLayout(false);
@@ -425,6 +438,7 @@
         private System.Windows.Forms.ContextMenuStrip BackupResultMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem detailsMenuStripItem;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label errors;
     }
 }
 

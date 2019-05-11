@@ -104,6 +104,33 @@ namespace SQLServerDatabaseBackup
             if (second != null)
                 second.Visible = false;
 
+            CleanupLocalDrivesList();
+
+
+        }
+
+        private void CleanupLocalDrivesList()
+        {
+            var invalidFirst = groupBox1.Controls.OfType<RadioButton>().Where(x => x.Text == "-");
+
+            if (invalidFirst.Any())
+            {
+                foreach (var invalid in invalidFirst)
+                {
+                    invalid.Visible = false;
+                }
+            }
+              
+
+            var invalidSecond = groupBox2.Controls.OfType<RadioButton>().Where(x => x.Text == "-");
+
+            if (invalidSecond.Any())
+            {
+                foreach (var invalid in invalidSecond)
+                {
+                    invalid.Visible = false;
+                }
+            }
 
 
         }
@@ -134,7 +161,8 @@ namespace SQLServerDatabaseBackup
 
             foreach (var drive in drives)
             {
-                drivesList.Add(drive);
+                if(drive.IsReady)
+                  drivesList.Add(drive);
             }
 
             return drivesList;
@@ -419,7 +447,9 @@ namespace SQLServerDatabaseBackup
 
             try
             {
-                conn.ServerInstance = bra.fromServer;
+                String fullyQualifiedServerNameOrigin = (!string.IsNullOrEmpty(bra.fromServerInstanceName) ? bra.fromServer + "\\" + bra.fromServerInstanceName : bra.fromServer);
+
+                conn.ServerInstance = fullyQualifiedServerNameOrigin;
                 conn.DatabaseName = "master";
 
                 srv = new Server(conn);
@@ -471,6 +501,8 @@ namespace SQLServerDatabaseBackup
                     String ORIGIN_backupFileNameRemote = string.Format("BACKUP_{0}_{1}.BAK", bra.fromDatabase, newGuidOrigin);
                     String ORIGIN_fullBackupFilePathRemote = ORIGIN_backupsPathRemote + "\\" + ORIGIN_backupFileNameRemote;
 
+                    result.BackedUpTo = ORIGIN_fullBackupFilePathRemote;
+
                     String DESTINATION_backupsPathRemote = string.Format("\\\\{0}\\{1}\\{2}", bra.toServer, destinationDrive.UNCDriveName, "Backups");
                     String DESTINATION_backupsPathLocal = string.Format("{0}\\{1}", destinationDrive.LocalDriveName, "Backups");
 
@@ -484,6 +516,9 @@ namespace SQLServerDatabaseBackup
 
                     String DESTINATION_backupFileNameRemote = string.Format("BACKUP_{0}_{1}.BAK", bra.toDatabase, newGuidDestination);
                     String DESTINATION_fullBackupFilePathRemote = DESTINATION_backupsPathRemote + "\\" + DESTINATION_backupFileNameRemote;
+
+                    result.RestoredTo = DESTINATION_fullBackupFilePathRemote;
+
 
                     if (!Directory.Exists(ORIGIN_backupsPathRemote))
                     {
@@ -523,10 +558,12 @@ namespace SQLServerDatabaseBackup
                     }
 
                     conn = new ServerConnection();
-                    conn.ServerInstance = bra.toServer;
+
+                    String fullyQualifiedServerNameDestination = (!string.IsNullOrEmpty(bra.toServerInstanceName) ? bra.toServer + "\\" + bra.toServerInstanceName : bra.toServer);
+
+                    conn.ServerInstance = fullyQualifiedServerNameDestination;
                     conn.DatabaseName = "master";
                     srv = new Server(conn);
-
 
                     SetAuthentication(ref srv, bra, RestoreDestination.ToServer);
 
@@ -580,7 +617,6 @@ namespace SQLServerDatabaseBackup
 
                         backupDestionationDatabaseBeforeRestore.SqlBackup(srv);
 
-
                         while (percentBackedUp != 100)
                         {
 
@@ -592,7 +628,6 @@ namespace SQLServerDatabaseBackup
                         db.DatabaseOptions.UserAccess = DatabaseUserAccess.Single;
                         db.Alter(TerminationClause.RollbackTransactionsImmediately);
                     }
-
 
                     res.Action = RestoreActionType.Database;
                     res.Devices.AddDevice(DESTINATION_fullBackupFilePathLocal, DeviceType.File);
@@ -641,7 +676,7 @@ namespace SQLServerDatabaseBackup
                    
                 }
 
-                result.Message = $"Backed up {bra.description} ({bra.fromServer}..{bra.fromDatabase} to {bra.toServer}..{bra.toDatabase}";
+                result.Message = $"Backed up {bra.description} ({bra.fromServer}..{bra.fromDatabase} to {bra.toServer}..{bra.toDatabase})";
                 result.Sucess = true;
                 
             }
@@ -662,8 +697,7 @@ namespace SQLServerDatabaseBackup
         }
         private void buttonBackupAll_Click(object sender, EventArgs e)
         {
-            listView1.Items.Clear();
-            listView1.Refresh();
+            GUICleanupBeforeBackupAndRestore();
 
             var braObj = new BackupRestoreActionHandler();
             braObj.getServers();
@@ -720,8 +754,7 @@ namespace SQLServerDatabaseBackup
 
         private void button1_Click(object sender, EventArgs e)
         {
-            listView1.Items.Clear();
-            listView1.Refresh();
+            GUICleanupBeforeBackupAndRestore();
 
             for(int i = 0; i < lstLocalInstances.SelectedItems.Count; i++)
             {
@@ -737,6 +770,13 @@ namespace SQLServerDatabaseBackup
             }
         
 
+        }
+
+        private void GUICleanupBeforeBackupAndRestore()
+        {
+            progressBar1.Value = 0;
+            listView1.Items.Clear();
+            listView1.Refresh();
         }
     }
 }

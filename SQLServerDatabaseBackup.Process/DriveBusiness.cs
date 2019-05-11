@@ -24,6 +24,7 @@ namespace SQLServerDatabaseBackup.Process
         {
             return _repository.GetDrives(serverName)
                               .OrderByDescending(x => x.TotalFreeSpace)
+                              .Where(y => y.IsReady)
                               .First();
         }
 

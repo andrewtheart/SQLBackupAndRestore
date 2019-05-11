@@ -36,15 +36,20 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtBackedUpTo = new System.Windows.Forms.Label();
+            this.txtRestoredTo = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
             // 
+            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(69, 12);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(268, 82);
+            this.textBox1.Size = new System.Drawing.Size(635, 82);
             this.textBox1.TabIndex = 0;
             // 
             // label1
@@ -59,7 +64,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(15, 125);
+            this.checkBox1.Location = new System.Drawing.Point(15, 165);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(78, 17);
             this.checkBox1.TabIndex = 2;
@@ -81,7 +86,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(15, 174);
+            this.groupBox1.Location = new System.Drawing.Point(15, 199);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 71);
             this.groupBox1.TabIndex = 4;
@@ -114,17 +119,58 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "End time";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(15, 110);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Backed up to:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(15, 132);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Restored to:";
+            // 
+            // txtBackedUpTo
+            // 
+            this.txtBackedUpTo.AutoSize = true;
+            this.txtBackedUpTo.Location = new System.Drawing.Point(95, 110);
+            this.txtBackedUpTo.Name = "txtBackedUpTo";
+            this.txtBackedUpTo.Size = new System.Drawing.Size(0, 13);
+            this.txtBackedUpTo.TabIndex = 7;
+            // 
+            // txtRestoredTo
+            // 
+            this.txtRestoredTo.AutoSize = true;
+            this.txtRestoredTo.Location = new System.Drawing.Point(95, 132);
+            this.txtRestoredTo.Name = "txtRestoredTo";
+            this.txtRestoredTo.Size = new System.Drawing.Size(0, 13);
+            this.txtRestoredTo.TabIndex = 8;
+            // 
             // BackupAndRestoreResultForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 271);
+            this.ClientSize = new System.Drawing.Size(716, 294);
+            this.Controls.Add(this.txtRestoredTo);
+            this.Controls.Add(this.txtBackedUpTo);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
+            this.MaximumSize = new System.Drawing.Size(732, 333);
+            this.MinimumSize = new System.Drawing.Size(732, 333);
             this.Name = "BackupAndRestoreResultForm";
-            this.Text = "BackupResultForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Backup Result";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -142,5 +188,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label txtBackedUpTo;
+        private System.Windows.Forms.Label txtRestoredTo;
     }
 }

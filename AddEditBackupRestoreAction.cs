@@ -19,11 +19,13 @@ namespace SQLServerDatabaseBackup
 
             textServerNameOrigin.Text = bra.fromServer;
             textDatabaseNameOrigin.Text = bra.fromDatabase;
+            txtInstanceNameOrigin.Text = bra.fromServerInstanceName;
             textSqlUserNameOrigin.Text = bra.SQLusernameFromServer;
             textSqlPasswordOrigin.Text = bra.SQLpasswordFromServer;
 
             textServerNameDestination.Text = bra.toServer;
             textDatabaseNameDestination.Text = bra.toDatabase;
+            txtInstanceNameDestination.Text = bra.toServerInstanceName;
             textSqlUserNameDestination.Text = bra.SQLusernameToServer;
             textSqlPasswordDestination.Text = bra.SQLpasswordToServer;
 
@@ -58,9 +60,11 @@ namespace SQLServerDatabaseBackup
                 config.Servers[x].description = txtDescription.Text;
                 config.Servers[x].fromServer = textServerNameOrigin.Text;
                 config.Servers[x].fromDatabase = textDatabaseNameOrigin.Text;
+                config.Servers[x].fromServerInstanceName = txtInstanceNameOrigin.Text;
                 config.Servers[x].SQLusernameFromServer = textSqlUserNameOrigin.Text;
                 config.Servers[x].SQLpasswordFromServer = textSqlPasswordOrigin.Text;
                 config.Servers[x].toServer = textServerNameDestination.Text;
+                config.Servers[x].toServerInstanceName = txtInstanceNameDestination.Text;
                 config.Servers[x].toDatabase = textDatabaseNameDestination.Text;
                 config.Servers[x].SQLusernameToServer = textSqlUserNameDestination.Text;
                 config.Servers[x].SQLpasswordToServer = textSqlPasswordDestination.Text;

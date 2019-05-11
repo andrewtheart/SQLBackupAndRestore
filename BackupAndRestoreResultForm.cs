@@ -19,6 +19,8 @@ namespace SQLServerDatabaseBackup
             textBox1.Text = result.Message;
             label4.Text = result.StartTime.ToString("MM/dd/yyyy HH:mm:ss");
             label5.Text = result.EndTime.ToString("MM/dd/yyyy HH:mm:ss");
+            txtBackedUpTo.Text = result.BackedUpTo;
+            txtRestoredTo.Text = result.RestoredTo;
             checkBox1.Checked = result.Sucess;
         }
 

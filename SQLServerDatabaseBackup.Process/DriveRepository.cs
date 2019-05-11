@@ -25,15 +25,31 @@ namespace SQLServerDatabaseBackup.Process
 
             foreach (var d in DriveInfo.GetDrives())
             {
-                drives.Add
-                (
-                    new Drive
+              
+                var drive = new Drive();
+
+                try
+                {
+                    drive = new Drive
                     {
                         LocalDriveName = d.Name.Replace("\\", ""),
-                        UNCDriveName = d.Name.Replace(":", "").Replace(@"\", "") + @"$\", Path = serverName,
-                        TotalFreeSpace = (ulong)d.AvailableFreeSpace
-                    }
-                );
+                        UNCDriveName = d.Name.Replace(":", "").Replace(@"\", "") + @"$\",
+                        Path = serverName,
+                        TotalFreeSpace = (ulong)d.AvailableFreeSpace,
+                        IsReady = true
+                    };
+
+                   
+                }
+                catch(Exception e)
+                {
+                    drive.IsReady = false;
+                    drive.AccessErrors = e.ToString();
+                }
+
+                drives.Add(drive);
+
+
             }
 
 

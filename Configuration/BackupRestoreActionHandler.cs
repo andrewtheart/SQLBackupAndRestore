@@ -35,8 +35,9 @@ namespace SQLServerDatabaseBackup.Configuration
                     SQLusernameToServer = config.Servers[i].SQLusernameToServer,
                     SQLpasswordToServer = config.Servers[i].SQLpasswordToServer,
                     UseWindowsAuthenticationFromServer = config.Servers[i].UseWindowsAuthenticationFromServer,
-                    UseWindowsAuthenticationToServer = config.Servers[i].UseWindowsAuthenticationToServer
-
+                    UseWindowsAuthenticationToServer = config.Servers[i].UseWindowsAuthenticationToServer,
+                    toServerInstanceName = config.Servers[i].toServerInstanceName,
+                    fromServerInstanceName = config.Servers[i].fromServerInstanceName
                 };
 
 				serv.Add(bra);
